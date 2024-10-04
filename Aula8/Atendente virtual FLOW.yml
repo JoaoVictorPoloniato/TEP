@@ -1,0 +1,218 @@
+app:
+  description: Atendente Virtual flow
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: advanced-chat
+  name: Atendente virtual FLOW
+  use_icon_as_answer_icon: false
+kind: app
+version: 0.1.2
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        sourceType: start
+        targetType: llm
+      id: 1728005687404-source-llm-target
+      source: '1728005687404'
+      sourceHandle: source
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: llm
+        targetType: code
+      id: llm-source-1728006642170-target
+      source: llm
+      sourceHandle: source
+      target: '1728006642170'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        sourceType: code
+        targetType: answer
+      id: 1728006642170-source-answer-target
+      source: '1728006642170'
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        desc: ''
+        selected: false
+        title: Iniciar
+        type: start
+        variables: []
+      height: 53
+      id: '1728005687404'
+      position:
+        x: 38
+        y: 105
+      positionAbsolute:
+        x: 38
+        y: 105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        context:
+          enabled: false
+          variable_selector: []
+        desc: ''
+        memory:
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 11
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: gemini-pro
+          provider: google
+        prompt_template:
+        - id: 73143980-20f7-4bb9-98ce-bfbf3f5c3b0c
+          role: system
+          text: "<contexto>\nSeu nome é Clara, você trabalha na Concecionaria Auto\
+            \ Carros.\nNo inicio da conversa, envie sempre a logo da loja, no formato\
+            \ markdown:\n\n\n![\"Auto+ Carros\"](https://www.veiculoaqui.com.br/fotos_lojas/loja20231122131932721_535130177.jpeg)\n\
+            \n\n\nVocê deve orientar o usuário a encontrar o carro ideal.\n</contexto>\n\
+            \n\n<etapas>\n1. Solicite o nome do usuário\n2. Pergunte para que tipo\
+            \ de uso será o carro\n3. Faça poucas perguntas para identificar o carro\
+            \ ideal para o cliente\n4. Sugira um carro ou uma lista de carros com\
+            \ base no perfil dele\n5. Assim que o usuário escolher o carro, agradeça\
+            \ e diga que irá encaminhá-lo para o Gerente Caetano, que irá agendar\
+            \ um teste Drive.\n</etapas> \n\n\n<response_format>\nResponda no formato\
+            \ JSON com os seguintes campos:\nresponse - Sua resposta para o usuário\n\
+            carro - o carro que o usuário escolheu, se não souber marque \"\"\nnome\
+            \ - o nome do usuário, se não souber, marque \"\"\netapa - o número da\
+            \ etapa em que você se encontra com descrito nas tags <etapas>\n\n\n</response_format>\n\
+            \n\n<json_schema>\n{\n  \"name\": \"carro_escolha\",\n  \"schema\": {\n\
+                \"type\": \"object\",\n    \"properties\": {\n      \"nome\": {\n\
+                    \"type\": \"string\",\n        \"description\": \"o nome da pessoa\"\
+            \n      },\n      \"carro\": {\n        \"type\": \"string\",\n       \
+            \ \"description\": \"o carro que o usuário escolheu, se não souber marque\
+            \ \\\"\\\"\"\n      },\n      \"response\": {\n        \"type\": \"string\"\
+            ,\n        \"description\": \"Sua resposta para o usuário\"\n      },\n\
+                  \"etapa\": {\n        \"type\": \"integer\",\n        \"description\"\
+            : \"o número da etapa em que você se encontra com descrito nas tags\"\n\
+                  }\n    }\n  }\n}\n</jason_schema>"
+        selected: false
+        title: LLM
+        type: llm
+        variables: []
+        vision:
+          enabled: false
+      height: 97
+      id: llm
+      position:
+        x: 341
+        y: 105
+      positionAbsolute:
+        x: 341
+        y: 105
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        answer: '{{#1728006642170.response#}}'
+        desc: ''
+        selected: false
+        title: Resposta
+        type: answer
+        variables: []
+      height: 105
+      id: answer
+      position:
+        x: 687.5640517359059
+        y: 253.4850068603211
+      positionAbsolute:
+        x: 687.5640517359059
+        y: 253.4850068603211
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    - data:
+        code: "def main(data: str) -> dict\n    jsondata = json.loads(data)\n\n  \
+          \  return{\n        \"response\": jsondata{\"response\"},\n        \"etapa\"\
+          : jsondata{\"etapa\"},\n        \"nome\": jsondata{\"nome\"},\n        \"\
+          carro\": jsondata{\"carro\"},\n    }"
+        code_language: python3
+        desc: ''
+        outputs:
+          carro:
+            children: null
+            type: string
+          etapa:
+            children: null
+            type: string
+          nome:
+            children: null
+            type: string
+          response:
+            children: null
+            type: string
+        selected: false
+        title: Código
+        type: code
+        variables:
+        - value_selector:
+          - llm
+          - text
+          variable: data
+      height: 53
+      id: '1728006642170'
+      position:
+        x: 644
+        y: 105
+      positionAbsolute:
+        x: 644
+        y: 105
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 243
+    viewport:
+      x: 176.3873534546375
+      y: 257.03747482597623
+      zoom: 0.47500019143744293
