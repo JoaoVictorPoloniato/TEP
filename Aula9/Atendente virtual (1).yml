@@ -1,0 +1,114 @@
+app:
+  description: 'Atendente virtual que fala sobre todo o processo de peças e indica
+    as melhores peças para o usuario '
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  mode: agent-chat
+  name: Atendente virtual
+  use_icon_as_answer_icon: false
+kind: app
+model_config:
+  agent_mode:
+    enabled: true
+    max_iteration: 5
+    prompt: null
+    strategy: react
+    tools:
+    - enabled: true
+      provider_id: firecrawl
+      provider_name: firecrawl
+      provider_type: builtin
+      tool_label: Crawl
+      tool_name: crawl
+      tool_parameters:
+        allowBackwardLinks: ''
+        allowExternalLinks: ''
+        excludePaths: ''
+        excludeTags: ''
+        formats: ''
+        headers: ''
+        ignoreSitemap: ''
+        includePaths: ''
+        includeTags: ''
+        limit: ''
+        maxDepth: ''
+        onlyMainContent: ''
+        url: ''
+        waitFor: ''
+        wait_for_results: ''
+        webhook: ''
+    - enabled: true
+      provider_id: duckduckgo
+      provider_name: duckduckgo
+      provider_type: builtin
+      tool_label: DuckDuckGo Image Search
+      tool_name: ddgo_img
+      tool_parameters:
+        max_results: ''
+        query: ''
+        size: ''
+        timelimit: ''
+    - enabled: true
+      provider_id: duckduckgo
+      provider_name: duckduckgo
+      provider_type: builtin
+      tool_label: DuckDuckGo Search
+      tool_name: ddgo_search
+      tool_parameters:
+        max_results: ''
+        query: ''
+        require_summary: ''
+  annotation_reply:
+    enabled: false
+  chat_prompt_config: {}
+  completion_prompt_config: {}
+  dataset_configs:
+    datasets:
+      datasets: []
+    retrieval_model: multiple
+  dataset_query_variable: ''
+  external_data_tools: []
+  file_upload:
+    image:
+      detail: high
+      enabled: false
+      number_limits: 3
+      transfer_methods:
+      - remote_url
+      - local_file
+  model:
+    completion_params:
+      stop: []
+    mode: chat
+    name: gemini-pro
+    provider: google
+  more_like_this:
+    enabled: false
+  opening_statement: ''
+  pre_prompt: "<contexto>\nSeu nome é Cusco você trabalha com vendas online de peças\
+    \ ferramentas e construçao. Se apresente no inicio da conversa.\nVocê deve orientar\
+    \ o usuário a encontrar a peça ideal.\n</contexto>\n<etapas>\n1. Solicite o nome\
+    \ do usuário\n2. Pergunte o porque dele estar entrando em contato\n3. Faça poucas\
+    \ perguntas para identificar a peça ideal para o cliente\n4. Sugira uma peça ou\
+    \ uma lista de peças com base no perfil dele. Utilize a ferramenta {crawl} para\
+    \ encontrar imagens das peças e enviar para ele.\n5. Assim que o usuário escolher\
+    \ a peça, agradeça.\n</etapas> \n<response_format>\nResponda o usuário cordiamente\
+    \ e Não responda perguntas fora do contexto.\n</response_format> "
+  prompt_type: simple
+  retriever_resource:
+    enabled: true
+  sensitive_word_avoidance:
+    configs: []
+    enabled: false
+    type: ''
+  speech_to_text:
+    enabled: false
+  suggested_questions: []
+  suggested_questions_after_answer:
+    enabled: false
+  text_to_speech:
+    enabled: false
+    language: ''
+    voice: ''
+  user_input_form: []
+version: 0.1.2
